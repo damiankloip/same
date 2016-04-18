@@ -34,11 +34,19 @@ func main() {
 }
 
 func find_dupes(base_path string) {
+  ignoreDirs := []string{".bzr", ".hg", ".git"}
   hash_map := make(map[string][]string)
 
   err := filepath.Walk(base_path, func (path string, fileInfo os.FileInfo, file_err error) error {
     if fileInfo.IsDir() {
-      return nil;
+      dirname := fileInfo.Name()
+      for _, d := range ignoreDirs {
+        if d == dirname {
+          return filepath.SkipDir
+        }
+      }
+
+      return nil
     }
 
     check_error(file_err)
