@@ -5,7 +5,7 @@ import (
   "fmt"
   "io"
   "path/filepath"
-  "crypto/sha256"
+  "crypto/sha512"
   "github.com/codegangsta/cli"
 )
 
@@ -79,7 +79,7 @@ func compute_sha(filePath string) ([]byte, error) {
   defer file.Close()
   check_error(err)
 
-  hash := sha256.New()
+  hash := sha512.New()
   if _, err := io.Copy(hash, file); err != nil {
     return result, err
   }
